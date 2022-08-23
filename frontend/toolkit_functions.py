@@ -1,6 +1,8 @@
 import streamlit as st
 import streamlit_option_menu as sm
 import pandas as pd
+import numpy as np
+import cv2 as cv
 import yaml
 import requests
 import plotly
@@ -29,6 +31,34 @@ def load_url():
     return url['url']
 
 ### ---- ETL ---- ###
+
+def get_Xtf(img_file):
+    '''
+    Transform images with true fast contours to an array from image information
+    '''
+    i = 0
+    arr_images = np.ndarray(
+        shape=(1, 540, 720, 3),
+        dtype=np.uint8
+        )
+    
+    pre_img = cv.imread(img_file)
+    
+    if pre_img.shape[0] > 99:
+        img = add_fast_true(pre_img) 
+        arr_images[i] = img / 255
+        i += 1
+
+    return arr_images
+
+def add_fast_true(pre_img):
+  fast = cv.FastFeatureDetector_create()
+  kp = fast.detect(pre_img, None)
+  img = cv.drawKeypoints(pre_img, kp, None, color=(255,0,0))
+
+  return img
+
+### ---- OLD ETL ---- ###
 
 def read_csv(path_csv = '', datetime = ''):
     data = pd.read_csv(path_csv, parse_dates = [datetime])
