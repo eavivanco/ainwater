@@ -24,7 +24,7 @@ async def upload(periodo: str, total_boletas: str):
 async def datos_temporales():
     return fn.datos_temporales()
 
-@app.get('/forecast')
+@app.get('/prediction')
 async def forecast(steps: int = 15):
     return fn.forecast(steps)
 
