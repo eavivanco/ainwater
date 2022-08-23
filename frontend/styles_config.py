@@ -10,7 +10,7 @@ def styles():
 
 def page_config():
     favicon = Image.open('images/favicon.ico')
-    st.set_page_config(page_title='demo deploy', 
+    st.set_page_config(page_title='Image recognition model', 
                         page_icon=favicon)
 
 def footer():

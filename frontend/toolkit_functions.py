@@ -23,18 +23,18 @@ def menu_bar(select_color="#0d63ba",orientation="horizontal"):
         styles={"nav-link-selected": {"background-color": select_color}})
     return page
 
+def load_url():
+    url_path= 'files/url.yaml' 
+    url=yaml.load(open(url_path),Loader=yaml.FullLoader)
+    return url['url']
+
+### ---- ETL ---- ###
 
 def read_csv(path_csv = '', datetime = ''):
     data = pd.read_csv(path_csv, parse_dates = [datetime])
     if 'Unnamed: 0' in data.columns:
         del data['Unnamed: 0']
     return data
-
-def load_url():
-    url_path= 'files/url.yaml' 
-    url=yaml.load(open(url_path),Loader=yaml.FullLoader)
-    return url['url']
-
 
 ### ---- API ---- ###
 def send_data(data):

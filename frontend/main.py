@@ -5,11 +5,10 @@ import toolkit_functions as tf #library for toolkit functions
 import page_inicio
 import page_dashboard
 
-
 styles_config.styles() #style for page
 
 with st.sidebar:
-    st.image('images/logo.png', width=200)
+    st.image('images/logo.png', width=300)
     page = tf.menu_bar(orientation= 'vertical') #menu bar
 
 if page == 'Inicio':

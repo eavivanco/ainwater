@@ -22,7 +22,6 @@ def datos_temporales():
     f.close()
     return tmp_tbl
 
-
 ### ETL para  @app.get('/forecast')
 def read_csv(path_csv = '', datetime = 'periodo'):
     data = pd.read_csv(path_csv, parse_dates = [datetime])

@@ -1,10 +1,11 @@
 import streamlit as st
 import toolkit_functions as tf
 import pandas as pd
+import cv2 as cv
 
 def app():
-    st.header('Inicio')
-    st.write('Esta es una aplicación para el análisis de datos de boletas electronicas emitidas en estaciones de servicio')
+    st.header('Machine Learning model for image recognition')
+    st.write('This app was made to ')
     st.write('Para empezar, cargue un archivo csv con los datos de las boletas del periodo que desea analizar')
     
     #formulario para cargar una imagen
@@ -30,7 +31,8 @@ def app():
             
     with st.expander('ver ultimos datos cargados'):  
         data_tmp = tf.get_data()
-        data_tmp = pd.DataFrame(data_tmp)
-        st.dataframe(data_tmp)
-        st.info('Para ver el dashboard, seleccione la opción "Dashboard"')
+        st.image(data_tmp)
+        # data_tmp = pd.DataFrame(data_tmp)
+        # st.dataframe(data_tmp)
+        # st.info('Para ver el dashboard, seleccione la opción "Dashboard"')
         
