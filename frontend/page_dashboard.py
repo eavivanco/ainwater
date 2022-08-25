@@ -13,16 +13,14 @@ def app():
     # st.dataframe(forecast[forecast['is_pred'] ==1][['periodo', 'y']])
     
     # predictions = tf.predict(X)
-    predictions = {
-        'fi': 1,
-        'fl1': 1,
-        'fl2': 2,
-        'fl3': 1
-    }
-    fi_class_predicted = predictions['fi']
-    fl1_class_predicted = predictions['fl1']
-    fl2_class_predicted = predictions['fl2']
-    fl3_class_predicted = predictions['fl3']
+    
+    predictions = [1, 2, 3, 2]
+        
+    
+    fi_class_predicted = predictions[0]
+    fl1_class_predicted = predictions[1]
+    fl2_class_predicted = predictions[2]
+    fl3_class_predicted = predictions[3]
     
     st.subheader(f'The filamentous index of this image is: {fi_class_predicted}')
     st.subheader(f'The flóculo 1 of this image is: {fl1_class_predicted}')

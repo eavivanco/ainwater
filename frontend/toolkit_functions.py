@@ -6,8 +6,8 @@ import numpy as np
 import cv2 as cv
 import yaml
 import requests
-import plotly
-import plotly.graph_objects as go
+# import plotly
+# import plotly.graph_objects as go
 import tensorflow as tf
 from keras import models, layers
 
@@ -57,6 +57,10 @@ def add_fast_true(pre_img):
   img = cv.drawKeypoints(pre_img, kp, None, color=(255,0,0))
   return img
 
+def load_image(image_file):
+	img = cv.imread(image_file)
+	return img
+
 ### ---- OLD ETL ---- ###
 
 # def read_csv(path_csv = '', datetime = ''):
@@ -79,23 +83,23 @@ def add_fast_true(pre_img):
 #     response = requests.put(put_api)
 #     return response.status_code
 
-def send_data():
-    '''guardar los datos cargados en backend'''
-    image_id = uuid4()
+# def send_data():
+#     '''guardar los datos cargados en backend'''
+#     image_id = uuid4()
     
-    url =  load_url()
-    method = 'upload'
-    put_api = f'{url}/{method}?id={image_id}'
-    response = requests.put(put_api)
-    return response.status_code
+#     url =  load_url()
+#     method = 'upload'
+#     put_api = f'{url}/{method}?id={image_id}'
+#     response = requests.put(put_api)
+#     return response.status_code
 
-def get_data():
-    '''obtener los datos cargados en backend'''
-    url =  load_url()
-    method = 'datos_temporales'
-    get_api = f'{url}/{method}'
-    response = requests.get(get_api)
-    return response.json()
+# def get_data():
+#     '''obtener los datos cargados en backend'''
+#     url =  load_url()
+#     method = 'datos_temporales'
+#     get_api = f'{url}/{method}'
+#     response = requests.get(get_api)
+#     return response.json()
 
 # def get_forecast(steps):
 #     '''obtener los datos cargados en backend'''
@@ -109,16 +113,16 @@ def get_data():
 #     forecast['y'] = forecast['y'].astype(float)
 #     return forecast
 
-def get_prediction(image_name):
-    '''obtener los datos cargados en backend'''
-    url =  load_url()
-    method = 'prediction'
-    get_api = f'{url}/{method}?image={image_name}'
-    response = requests.get(get_api)
-    prediction = response.json()
-    prediction = pd.DataFrame(prediction)
+# def get_prediction(image_name):
+#     '''obtener los datos cargados en backend'''
+#     url =  load_url()
+#     method = 'prediction'
+#     get_api = f'{url}/{method}?image={image_name}'
+#     response = requests.get(get_api)
+#     prediction = response.json()
+#     prediction = pd.DataFrame(prediction)
 
-    return prediction
+#     return prediction
 
 ### ---- BACK ---- ###
 
