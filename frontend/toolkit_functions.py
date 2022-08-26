@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import cv2 as cv
 import yaml
-import requests
+# import requests
 # import plotly
 # import plotly.graph_objects as go
 import tensorflow as tf
@@ -13,12 +13,24 @@ from keras import models, layers
 
 ### Cargar el esquema de la página
 def read_schema_page():
+    """
+    > The function `read_schema_page()` reads the schema page from the file `files/schema_page.yaml` and
+    returns the schema page as a Python dictionary
+    :return: A dictionary of the schema_page.yaml file
+    """
     yaml_path= 'files/schema_page.yaml' 
     schema_page=yaml.load(open(yaml_path),Loader=yaml.FullLoader)
     return schema_page
 
 ### Menu de la pagina principal
 def menu_bar(select_color="#0d63ba",orientation="horizontal"):
+    """
+    `menu_bar()` creates a menu bar with the menu items and icons defined in the schema page
+    
+    :param select_color: the color of the selected menu item, defaults to #0d63ba (optional)
+    :param orientation: "horizontal" or "vertical", defaults to horizontal (optional)
+    :return: A list of the menu items.
+    """
     schema = read_schema_page()
     menu_list = [i for i in schema.keys()]
     menu_icon = [schema[i] for i in menu_list] #https://icons.getbootstrap.com
@@ -29,13 +41,24 @@ def menu_bar(select_color="#0d63ba",orientation="horizontal"):
     return page
 
 def load_url():
+    """
+    It opens the url.yaml file, loads the contents into a variable called url, and returns the value of
+    the url key
+    :return: The url is being returned.
+    """
     url_path= 'files/url.yaml' 
     url=yaml.load(open(url_path),Loader=yaml.FullLoader)
     return url['url']
 
 ### ---- ETL ---- ###
-
 def get_Xtf(img_file):
+    """
+    > This function takes an image file and returns an array of the image with the true fast contours
+    added
+    
+    :param img_file: the path to the image file
+    :return: An array of images with true fast contours
+    """
     '''
     Transform images with true fast contours to an array from image information
     '''
@@ -52,14 +75,27 @@ def get_Xtf(img_file):
     return arr_images
 
 def add_fast_true(pre_img):
-  fast = cv.FastFeatureDetector_create()
-  kp = fast.detect(pre_img, None)
-  img = cv.drawKeypoints(pre_img, kp, None, color=(255,0,0))
-  return img
+    """
+    > The function `add_fast_true` takes an image as input and returns the same image with FAST features
+    drawn on it
+    
+    :param pre_img: The image to be processed
+    :return: The image with the keypoints drawn on it.
+    """
+    fast = cv.FastFeatureDetector_create()
+    kp = fast.detect(pre_img, None)
+    img = cv.drawKeypoints(pre_img, kp, None, color=(255,0,0))
+    return img
 
 def load_image(image_file):
-	img = cv.imread(image_file)
-	return img
+    """
+    It takes an image file as input and returns the image as a numpy array
+    
+    :param image_file: The path to the image file
+    :return: The image is being returned.
+    """
+    img = cv.imread(image_file)
+    return img
 
 ### ---- OLD ETL ---- ###
 
@@ -125,8 +161,17 @@ def load_image(image_file):
 #     return prediction
 
 ### ---- BACK ---- ###
-
 def create_sequential(IMG_SIZE, NB_OUTPUTS, LR, NAME):
+    """
+    It creates a convolutional neural network with 3 convolutional layers, 2 dense layers, and a final
+    output layer
+    
+    :param IMG_SIZE: the size of the images that will be fed into the model
+    :param NB_OUTPUTS: number of outputs (classes)
+    :param LR: Learning rate
+    :param NAME: the name of the model, used to save the model and to name the layers
+    :return: A model with the following architecture:
+    """
     h, w = IMG_SIZE[0], IMG_SIZE[1]
     model = models.Sequential()
     model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(h, w, 3)))
@@ -141,10 +186,15 @@ def create_sequential(IMG_SIZE, NB_OUTPUTS, LR, NAME):
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=LR),
                 loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
                 metrics=['accuracy'])
-
     return model
 
 def predict(X):
+    """
+    It loads the weights of the four models, then predicts the class of the input image
+    
+    :param X: The image you want to predict on
+    :return: The predictions are being returned.
+    """
     predictions = {
         'fi': 0,
         'fl1': 0,
@@ -170,11 +220,9 @@ def predict(X):
     predictions['fl2'] = np.argmax(fl2_pre_prediction,axis=1)[0]
     fl3_pre_prediction = fl3_model.predict(X)
     predictions['fl3'] = np.argmax(fl3_pre_prediction,axis=1)[0]
-
     return predictions
 
 ### ---- FIGURES ---- ###
-
 # def plot_timeserie(forecast):
 #     fill_real = forecast[forecast['is_pred'] ==0]
 #     fill_pred = forecast[len(fill_real)-1:]
