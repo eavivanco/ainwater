@@ -7,8 +7,6 @@ import functions as fn
 
 styles_config.styles() #style for page
 
-st.title("Cette merde fonctione")
-
 with st.sidebar:
     st.image('images/logo.png', width=300)
     page = fn.menu_bar(orientation= 'vertical') #menu bar
